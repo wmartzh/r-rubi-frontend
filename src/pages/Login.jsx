@@ -1,7 +1,8 @@
+/* eslint-disable array-callback-return */
 import React from 'react';
 import { useState } from 'react';
-import { Layout, Form, Input, Card, Button, Notification } from 'element-react';
-import axios from 'axios';
+import { Layout, Form, Input, Card, Button, Notification, Alert } from 'element-react';
+import { fetchLogin } from '@api/authService';
 const centered = {
   position: 'fixed',
   top: '25%',
@@ -12,25 +13,27 @@ const centered = {
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const fetchLogin = async () => {
-    try {
-      let response = await axios.post(
-        'http://127.0.0.1:8000/v1/auth/login',
-        { email, password },
-        {
-          headers: { 'Content-Type': 'application/json' },
-        }
-      );
-      console.log('🚀 -> fetchLogin -> response', response.data);
-    } catch (error) {
-      console.log('🚀 -> fetchLogin -> error', { error });
-    }
+  const [error, setError] = useState('');
+  const rules = {
+    email: [
+      {
+        required: true,
+        message: 'Email is required',
+        trigger: 'blur',
+      },
+    ],
+    password: [
+      {
+        required: true,
+        message: 'Password is required',
+        trigger: 'change',
+      },
+    ],
   };
 
-  const handleSubmit = (event) => {
-    console.log('🚀 -> handleSubmit -> event', event);
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setError('');
     if (email === '' || !email) {
       Notification({
         title: 'Warning',
@@ -44,7 +47,17 @@ const Login = () => {
         type: 'warning',
       });
     } else {
-      fetchLogin();
+      try {
+        const response = await fetchLogin({ email, password });
+        console.log('🚀 -> handleSubmit -> response', response);
+      } catch (error) {
+        if (error.response.data.details && error.response.data.details[0].context.key === 'email') {
+          setError('Email must be an valid email');
+        } else if (error && error.response.data.error) {
+          setError(error.response.data.error);
+        }
+        console.log('🚀 -> handleSubmit -> error', error.response);
+      }
     }
   };
 
@@ -54,11 +67,13 @@ const Login = () => {
         <Layout.Col sm="6">
           <Card style={centered} className="box-card">
             <h2>Login</h2>
-            <Form onSubmit={handleSubmit}>
-              <Form.Item label="Email">
+          
+            {error && <Alert type="error" title={error} />}
+            <Form model={{ email, password }} rules={rules} onSubmit={handleSubmit}>
+              <Form.Item label="Email" prop="email">
                 <Input value={email} onChange={setEmail} type="text" />
               </Form.Item>
-              <Form.Item label="Password">
+              <Form.Item label="Password" prop="password">
                 <Input value={password} onChange={setPassword} type="password" />
               </Form.Item>
               <Button type="success" nativeType="submit">
