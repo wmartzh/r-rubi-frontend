@@ -1,10 +1,15 @@
-import MainLayout from './layouts/MainLayout';
-import Login from './pages/Login';
+import { UserProvider } from './components/UserContext';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import RouterManager from './routes/RouterManager';
 const App = () => {
   return (
-    <MainLayout>
-      <Login></Login>
-    </MainLayout>
+    <UserProvider>
+      <Router>
+        <Switch>
+          <RouterManager />
+        </Switch>
+      </Router>
+    </UserProvider>
   );
 };
 
