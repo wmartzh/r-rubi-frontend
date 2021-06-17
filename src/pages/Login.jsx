@@ -6,12 +6,6 @@ import { useHistory } from 'react-router-dom';
 import { useUserValues } from '../components/UserContext';
 import { Form, Columns, Card, Button, Icon, Block, Notification } from 'react-bulma-components';
 import { fetchLogin } from '@api/authService';
-const centered = {
-  position: 'fixed',
-  top: '25%',
-  left: '35%',
-  width: '25%',
-};
 
 const Login = () => {
   const history = useHistory();

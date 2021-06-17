@@ -6,4 +6,10 @@ const fetchLogin = (body) => {
   });
 };
 
-export { fetchLogin };
+const fetchRegister = (body) => {
+  return axios.post(API.REGISTER, body, {
+    headers: { 'Content-Type': 'application/json' },
+  });
+};
+
+export { fetchLogin, fetchRegister };
