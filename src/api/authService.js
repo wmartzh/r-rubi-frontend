@@ -1,4 +1,4 @@
-import API from '@api/routes';
+import API from '../api/routes';
 import axios from 'axios';
 const fetchLogin = (body) => {
   return axios.post(API.LOGIN, body, {
