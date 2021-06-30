@@ -5,23 +5,33 @@ import { useHistory } from 'react-router-dom';
 
 import { useUserValues } from '../components/UserContext';
 import {
-  Form,
-  Columns,
-  Card,
+  VStack,
+  HStack,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  InputGroup,
+  Input,
+  InputRightElement,
+  Box,
+  Text,
+  Container,
   Button,
   Icon,
-  Block,
-  Notification,
-  Hero,
-} from 'react-bulma-components';
+  Alert,
+  AlertIcon,
+  AlertDescription,
+} from '@chakra-ui/react';
 import { fetchLogin } from '../api/authService';
 import { useCookies } from 'react-cookie';
-
+import { FiLogIn } from 'react-icons/fi';
+import { Formik, Form, Field } from 'formik';
 const Login = () => {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [showPass, setShowPass] = useState(false);
   const { setUser, setAuth } = useUserValues();
   // eslint-disable-next-line
   const [cookies, setCookie] = useCookies(['actk', 'rftk']);
@@ -56,6 +66,8 @@ const Login = () => {
           } else if (error && error.response.data.error) {
             setError(error.response.data.error);
           }
+        } else {
+          setError('Connection Error');
         }
       }
     }
@@ -66,78 +78,63 @@ const Login = () => {
 
   return (
     <>
-      <Hero>
-        <Hero.Body size="fullheight">
-          <form>
-            <Columns centered={true} vCentered={true}>
-              <Columns.Column size="one-quarter">
-                <Card>
-                  <Card.Content>
-                    <h2 className="title is-4 has-text-centered	">Login</h2>
-                    <Block>
-                      {error && (
-                        <Notification color="danger">
-                          {error} <Button remove />
-                        </Notification>
-                      )}
-                    </Block>
-                    <Form.Field>
-                      <Form.Label>Email</Form.Label>
-                      <Form.Control>
-                        <Form.Input
-                          onChange={(e) => {
-                            setEmail(e.target.value);
-                          }}
-                          type="text"
-                          value={email}
-                        ></Form.Input>
+      <Container>
+        <Box boxShadow="xs" p="10%" marginTop="25%" textAlign="center">
+          <Text fontSize="xl"> Login </Text>
 
-                        <Icon align="left" size="small">
-                          <i className="bx bxs-envelope"></i>
-                        </Icon>
-                      </Form.Control>
-                      {email === '' && (
-                        <Form.Help color="danger">Please provide an email</Form.Help>
-                      )}
-                    </Form.Field>
-                    <Form.Field>
-                      <Form.Label>Password</Form.Label>
-                      <Form.Control>
-                        <Form.Input
-                          onChange={(e) => {
-                            setPassword(e.target.value);
-                          }}
-                          type="password"
-                          value={password}
-                        ></Form.Input>
-                        <Icon align="left" size="small">
-                          <i className="bx bxs-lock-alt"></i>
-                        </Icon>
-                      </Form.Control>
-                      {password === '' && (
-                        <Form.Help color="danger">Please write your password</Form.Help>
-                      )}
-                    </Form.Field>
-                    <Button.Group align="right">
-                      <Button color="success" size="small" onClick={handleSubmit}>
-                        Login <i className="bx bxs-arrow-from-left"></i>
-                      </Button>
-                      <Button
-                        color="link"
-                        size="small"
-                        colorVariant="light"
-                        onClick={handleRegister}
-                      >
-                        Register
-                      </Button>
-                    </Button.Group>
-                  </Card.Content>
-                </Card>
-              </Columns.Column>
-            </Columns>
+          <form>
+            <VStack>
+              {error && (
+                <Alert status="error">
+                  <AlertIcon />
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
+              <FormControl isInvalid={!email || email === ''}>
+                <FormLabel htmlFor="email">Email</FormLabel>
+                <Input id="email" placeholder="email" onChange={(e) => setEmail(e.target.value)} />
+                <FormErrorMessage>Please type a email</FormErrorMessage>
+              </FormControl>
+
+              <FormControl isInvalid={!password && password === ''}>
+                <FormLabel htmlFor="password">Password</FormLabel>
+                <InputGroup>
+                  <Input
+                    id="password"
+                    placeholder="password"
+                    type={showPass ? 'text' : 'password'}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <InputRightElement width="4.5rem">
+                    <Button h="1.75rem" size="sm" onClick={() => setShowPass(!showPass)}>
+                      {showPass ? 'Hide' : 'Show'}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+                <FormErrorMessage>Please type a password</FormErrorMessage>
+              </FormControl>
+              <HStack>
+                <Button
+                  backgroundColor="green.300"
+                  color="white"
+                  variant="solid"
+                  size="md"
+                  _hover={{
+                    backgroundColor: 'green',
+                  }}
+                  rightIcon={<Icon as={FiLogIn} cursor="pointer" />}
+                  onClick={handleSubmit}
+                >
+                  Login
+                </Button>
+                <Button onClick={handleRegister} colorSchema="teal" size="md">
+                  Register
+                </Button>
+              </HStack>
+            </VStack>
           </form>
-        </Hero.Body>
-      </Hero>
+        </Box>
+      </Container>
     </>
   );
 };
