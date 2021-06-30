@@ -19,16 +19,18 @@ const RouterManager = () => {
           <Route exact path="/register" component={Register} />
         </>
       ) : (
-        <Redirect to="/dashboard"></Redirect>
+        <>
+          <Redirect to="/dashboard"></Redirect>
+          <MainLayout>
+            {globalRoutes.map(({ path, component: Component }) => (
+              <ProtectedRoute key={path} exact path={path} component={(props) => <Component />} />
+            ))}
+            {productRoutes.map(({ path, component: Component }) => (
+              <ProtectedRoute key={path} exact path={path} component={(props) => <Component />} />
+            ))}
+          </MainLayout>
+        </>
       )}
-      <MainLayout>
-        {globalRoutes.map(({ path, component: Component }) => (
-          <ProtectedRoute key={path} exact path={path} component={(props) => <Component />} />
-        ))}
-        {productRoutes.map(({ path, component: Component }) => (
-          <ProtectedRoute key={path} exact path={path} component={(props) => <Component />} />
-        ))}
-      </MainLayout>
     </>
   );
 };
