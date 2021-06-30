@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   VStack,
-  HStack,
   FormControl,
   FormLabel,
   FormErrorMessage,
@@ -12,7 +11,6 @@ import {
   Text,
   Container,
   Button,
-  Icon,
   Alert,
   AlertIcon,
   AlertDescription,

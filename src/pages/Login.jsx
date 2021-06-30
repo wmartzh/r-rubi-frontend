@@ -25,7 +25,6 @@ import {
 import { fetchLogin } from '../api/authService';
 import { useCookies } from 'react-cookie';
 import { FiLogIn } from 'react-icons/fi';
-import { Formik, Form, Field } from 'formik';
 const Login = () => {
   const history = useHistory();
   const [email, setEmail] = useState('');

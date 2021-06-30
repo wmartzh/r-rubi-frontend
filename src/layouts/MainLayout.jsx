@@ -7,14 +7,11 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useRouteMatch } from 'react-router';
 import { useUserValues } from '../components/UserContext';
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
-import { Switch } from 'react-router';
-import { ProtectedRoute } from '../routes/ProtectedRoute';
-import { managerRoutes } from '../routes/products';
 function MainLayout({ children }) {
+  //eslint-disable-next-line
   const { user } = useUserValues();
   const sidebar = useDisclosure();
 
@@ -32,7 +29,6 @@ function MainLayout({ children }) {
           <Navbar sidebar={sidebar} useColorModeValue={useColorModeValue} />
 
           <Box as="main" p="4">
-           
             {children}
           </Box>
         </Box>
