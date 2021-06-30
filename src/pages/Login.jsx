@@ -23,7 +23,8 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const { setUser, setAuth } = useUserValues();
-  const [setCookie] = useCookies(['actk', 'rftk']);
+  // eslint-disable-next-line
+  const [cookies, setCookie] = useCookies(['actk', 'rftk']);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -40,11 +41,12 @@ const Login = () => {
         setCookie('rftk', response.data.refresh_token);
 
         setUser({ username: response.data.username });
-        
+
         setAuth(true);
 
         history.push('/');
       } catch (error) {
+        console.log('🚀 -> handleSubmit -> error', error);
         if (error.response) {
           if (
             error.response.data.details &&

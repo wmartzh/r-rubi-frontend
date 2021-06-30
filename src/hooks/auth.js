@@ -7,7 +7,8 @@ import { useCookies } from 'react-cookie';
 export const userAuth = () => {
   const [user, setUser] = useState(null);
   const [auth, setAuth] = useState(false);
-  const [cookies] = useCookies(['actk', 'rftk']);
+  // eslint-disable-next-line
+  const [cookies, setCokies] = useCookies(['actk', 'rftk']);
 
   const local_actk = cookies['actk'];
   const local_rftk = cookies['rftk'];
