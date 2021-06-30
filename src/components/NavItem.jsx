@@ -1,11 +1,19 @@
 import React from 'react';
 import { Flex, useColorModeValue, Icon } from '@chakra-ui/react';
-
+import { useHistory } from 'react-router-dom';
 const NavItem = (props) => {
-  const { icon, children, ...rest } = props;
+  const { icon, children, to, ...rest } = props;
+  const history = useHistory();
+
   const iconColor = useColorModeValue('gray.600', 'gray.300');
+  const handleClick = () => {
+    if (to) {
+      history.push(to);
+    }
+  };
   return (
     <Flex
+      onClick={handleClick}
       align="center"
       px="4"
       pl="4"

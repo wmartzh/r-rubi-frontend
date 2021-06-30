@@ -2,7 +2,7 @@ import Dashboard from '../pages/Dashboard';
 
 export const globalRoutes = [
   {
-    path: '/',
+    path: '/dashboard',
     component: Dashboard,
   },
 ];

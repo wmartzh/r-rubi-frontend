@@ -11,7 +11,7 @@ const App = () => {
         <UserProvider>
           <Router>
             <Switch>
-              <RouterManager />d
+              <RouterManager />
             </Switch>
           </Router>
         </UserProvider>

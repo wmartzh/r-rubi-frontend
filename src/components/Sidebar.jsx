@@ -3,6 +3,7 @@ import { Box, Flex, Text, useColorModeValue } from '@chakra-ui/react';
 import NavItem from './NavItem';
 
 import { MdHome } from 'react-icons/md';
+import { BiPackage } from 'react-icons/bi';
 function Sidebar(props) {
   return (
     <>
@@ -40,7 +41,12 @@ function Sidebar(props) {
           color="gray.600"
           aria-label="Main Navigation"
         >
-          <NavItem icon={MdHome}>Home</NavItem>
+          <NavItem icon={MdHome} to="/dashboard">
+            Home
+          </NavItem>
+          <NavItem icon={BiPackage} to="/products">
+            Products
+          </NavItem>
         </Flex>
       </Box>
     </>
